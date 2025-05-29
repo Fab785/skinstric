@@ -1,13 +1,15 @@
 import React from "react";
 import Header from "../components/Header";
+import Hero from "../components/Hero";
 
-const Home = () => {
+export default function Home() {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      {/* Other sections like HeroSection, FeaturesSection, etc. */}
-    </>
+      <main className="flex-grow flex items-center justify-center">
+        <Hero />
+      </main>
+    </div>
   );
-};
+}
 
-export default Home;
