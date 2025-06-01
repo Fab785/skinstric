@@ -3,82 +3,119 @@ import { useNavigate } from "react-router-dom";
 import RhombusButton from "../UI/RhombusButtons";
 
 export default function StartAnalysis() {
-  const [step, setStep] = useState(1); // Step 1: Name, Step 2: Location
+  const navigate = useNavigate();
+  const inputRef = useRef(null);
+  const containerRef = useRef(null);
+
+  const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
-  const inputRef = useRef(null);
-  const navigate = useNavigate();
+  const [labelClicked, setLabelClicked] = useState(false);
 
-  useEffect(() => {
-    if (inputRef.current) inputRef.current.focus();
-  }, [step]);
+  const value = step === 1 ? name : location;
+  const setValue = step === 1 ? setName : setLocation;
+  const label = step === 1 ? "Introduce yourself" : "Where are you from?";
+  const hasText = value.trim().length > 0;
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      if (step === 1 && name.trim()) {
+    if (e.key === "Enter" && hasText) {
+      if (step === 1) {
         setStep(2);
-      } else if (step === 2 && location.trim()) {
-        // Final submit logic here
-        console.log({ name, location });
+        setLabelClicked(false);
+      } else {
+        console.log("Submitted:", { name, location });
       }
     }
   };
 
-  const handleBackClick = () => {
-    navigate("/");
+  const handleLabelClick = () => {
+    setLabelClicked(true);
+    inputRef.current?.focus();
   };
 
+  // Detect clicks outside input & label area
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        // If input empty, reset labelClicked
+        if (!hasText) {
+          setLabelClicked(false);
+        }
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [hasText]);
+
   return (
-    <div className="relative h-screen w-full bg-white px-8 py-6 font-roobert">
-      {/* Top Left */}
-      <div className="absolute top-6 left-6 text-black font-normal leading-[22px]">
-        <div className="uppercase text-[14px]">
-          SKINSTRIC <span className="text-gray-400">[ INTRO ]</span>
-        </div>
-        <div className="uppercase text-[14px] mt-4">TO START ANALYSIS</div>
+    <div className="w-full h-screen flex flex-col justify-between px-8 py-6">
+      {/* Top Labels */}
+      <div className="text-left uppercase space-y-1">
+        <p className="text-[16px] font-normal text-black">SKINSTRIC [ INTRO ]</p>
+        <p className="text-[16px] font-normal text-black mt-4">TO START ANALYSIS</p>
       </div>
 
-      {/* Center Input */}
-      <div className="flex flex-col items-center justify-center h-full text-center -mt-16">
-        <div className="relative w-full max-w-md">
+      {/* Main Input Area */}
+      <div className="flex-1 flex items-center justify-center" ref={containerRef}>
+        <div className="relative w-full max-w-xl text-center">
+          {/* CLICK TO TYPE */}
+          {!labelClicked && !hasText && (
+            <p className="text-[16px] text-gray-400 uppercase mb-2">CLICK TO TYPE</p>
+          )}
+
+          {/* Floating Label */}
           <label
-            className={`absolute left-1/2 -translate-x-1/2 transition-all duration-300 ${
-              (step === 1 ? name : location)
-                ? "top-[-32px] text-[12px] text-black"
-                : "top-[2px] text-sm text-gray-400"
+            onClick={handleLabelClick}
+            className={`absolute left-1/2 transform -translate-x-1/2 cursor-text transition-all duration-300 ease-in-out font-light whitespace-nowrap ${
+              labelClicked || hasText
+                ? "-top-8 text-[16px] text-gray-400 uppercase italic"
+                : "top-[50%] -translate-y-1/2 text-[40px] text-black"
             }`}
           >
-            {(step === 1 ? name : location)
-              ? step === 1
-                ? "Introduce Yourself"
-                : "Where are you from?"
-              : "CLICK TO TYPE"}
+            {label}
           </label>
 
+          {/* Input */}
           <input
             ref={inputRef}
             type="text"
-            value={step === 1 ? name : location}
-            onChange={(e) =>
-              step === 1 ? setName(e.target.value) : setLocation(e.target.value)
-            }
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={
-              (step === 1 ? name : location)
-                ? ""
-                : step === 1
-                ? "Introduce Yourself"
-                : "Where are you from?"
-            }
-            className="w-full text-black bg-transparent border-none outline-none text-[28px] font-light text-center placeholder-black tracking-wide mt-4"
+            autoFocus={labelClicked}
+            className={`w-full bg-transparent border-b border-black outline-none text-[40px] text-black text-center font-light placeholder-transparent pt-2 ${
+              labelClicked ? "caret-black" : "caret-transparent"
+            }`}
           />
         </div>
       </div>
 
-      {/* Bottom Left Back Button */}
-      <div className="absolute bottom-6 left-6" onClick={handleBackClick}>
-        <RhombusButton direction="left" label="BACK" />
+      {/* Back Button */}
+      <div className="absolute bottom-8 left-8">
+        <div onClick={() => navigate("/")} className="cursor-pointer">
+          <RhombusButton direction="left" label="BACK" />
+        </div>
       </div>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
