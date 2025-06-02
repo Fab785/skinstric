@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCamera, FaImage } from "react-icons/fa";
 import RhombusButton from "../UI/RhombusButtons";
 
 export default function ImageUploadChoice() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+
+  // Dummy Base64 transparent image
+  const dummyImage =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
 
   const handleCameraAccess = () => {
-    console.log("Camera access clicked");
-    setLoading(true);
-    setTimeout(() => setLoading(false), 2000); // Fake loading
+    navigate("/loading", {
+      state: { imageBase64: dummyImage },
+    });
   };
 
   const handleGalleryAccess = () => {
-    console.log("Gallery access clicked");
-    setLoading(true);
-    setTimeout(() => setLoading(false), 2000); // Fake loading
+    navigate("/loading", {
+      state: { imageBase64: dummyImage },
+    });
   };
 
   const DiamondBackground = () => (
@@ -35,28 +38,6 @@ export default function ImageUploadChoice() {
       ))}
     </>
   );
-
-  if (loading) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center relative">
-        <DiamondBackground />
-        <p
-          style={{
-            fontFamily: "Roobert TRIAL",
-            fontWeight: 600,
-            fontSize: "16px",
-            lineHeight: "24px",
-            letterSpacing: "-2%",
-            textAlign: "center",
-            textTransform: "uppercase",
-          }}
-          className="z-10 text-black"
-        >
-          PREPARING YOUR ANALYSIS ...
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="w-full h-screen flex flex-col justify-between px-8 py-6 relative">
@@ -78,20 +59,14 @@ export default function ImageUploadChoice() {
           onClick={handleCameraAccess}
         >
           <DiamondBackground />
-
-          {/* Icon */}
           <div className="z-10 w-24 h-24 flex items-center justify-center rounded-full border-2 border-black text-black text-3xl bg-white">
             <FaCamera />
           </div>
-
-          {/* Label */}
           <div className="absolute top-4 right-4 text-xs text-black uppercase text-right leading-tight w-32 z-10">
             ALLOW A.I.
             <br />
             TO SCAN YOUR FACE
           </div>
-
-          {/* Connecting Line */}
           <div
             className="absolute w-[2px] bg-black z-0"
             style={{
@@ -110,27 +85,21 @@ export default function ImageUploadChoice() {
           onClick={handleGalleryAccess}
         >
           <DiamondBackground />
-
-          {/* Icon */}
           <div className="z-10 w-24 h-24 flex items-center justify-center rounded-full border-2 border-black text-black text-3xl bg-white">
             <FaImage />
           </div>
-
-          {/* Label */}
           <div className="absolute bottom-4 left-4 text-xs text-black uppercase text-left leading-tight w-32 z-10">
             ALLOW A.I.
             <br />
             ACCESS GALLERY
           </div>
-
-          {/* Corrected Connecting Line */}
           <div
             className="absolute w-[2px] bg-black z-0"
             style={{
               height: "60px",
               bottom: "45px",
               left: "45px",
-              transform: "rotate(45deg)", // Correct direction
+              transform: "rotate(45deg)",
               transformOrigin: "bottom left",
             }}
           />
@@ -146,6 +115,7 @@ export default function ImageUploadChoice() {
     </div>
   );
 }
+
 
 
 
