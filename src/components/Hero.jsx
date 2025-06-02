@@ -5,7 +5,7 @@ export default function Hero() {
   const navigate = useNavigate();
 
   const handleTakeTest = () => {
-    navigate("/start-analysis");
+    navigate("/start-analysis"); // matches App.js route
   };
 
   return (
@@ -42,6 +42,7 @@ export default function Hero() {
     </div>
   );
 }
+
 
 
 

@@ -5,48 +5,54 @@ import RhombusButton from "../UI/RhombusButtons";
 export default function StartAnalysis() {
   const navigate = useNavigate();
   const inputRef = useRef(null);
-  const containerRef = useRef(null);
 
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [labelClicked, setLabelClicked] = useState(false);
+  const [inputFocused, setInputFocused] = useState(false);
 
   const value = step === 1 ? name : location;
   const setValue = step === 1 ? setName : setLocation;
-  const label = step === 1 ? "Introduce yourself" : "Where are you from?";
+  const label = step === 1 ? "Introduce Yourself" : "Where are you from?"; // Capitalize only first letters
   const hasText = value.trim().length > 0;
 
+  // Handle Enter key
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && hasText) {
       if (step === 1) {
         setStep(2);
         setLabelClicked(false);
+        setInputFocused(false);
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 0);
       } else {
-        console.log("Submitted:", { name, location });
+        navigate("/upload");
       }
     }
   };
 
+  // Click label to focus input
   const handleLabelClick = () => {
     setLabelClicked(true);
     inputRef.current?.focus();
   };
 
-  // Detect clicks outside input & label area
+  // Handle clicks outside input
   useEffect(() => {
     function handleClickOutside(event) {
       if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target)
+        inputRef.current &&
+        !inputRef.current.contains(event.target) &&
+        !event.target.classList.contains("label-clickable")
       ) {
-        // If input empty, reset labelClicked
         if (!hasText) {
           setLabelClicked(false);
         }
+        setInputFocused(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -54,27 +60,33 @@ export default function StartAnalysis() {
   }, [hasText]);
 
   return (
-    <div className="w-full h-screen flex flex-col justify-between px-8 py-6">
+    <div className="w-full h-screen flex flex-col justify-between px-8 py-6 font-roobert">
       {/* Top Labels */}
-      <div className="text-left uppercase space-y-1">
-        <p className="text-[16px] font-normal text-black">SKINSTRIC [ INTRO ]</p>
-        <p className="text-[16px] font-normal text-black mt-4">TO START ANALYSIS</p>
+      <div className="text-left space-y-1">
+        <p className="text-[16px] font-normal text-black">
+          SKINSTRIC <span className="text-gray-400 font-light">[ intro ]</span>
+        </p>
+        <p className="text-[16px] font-normal text-black mt-4">
+          TO START ANALYSIS
+        </p>
       </div>
 
-      {/* Main Input Area */}
-      <div className="flex-1 flex items-center justify-center" ref={containerRef}>
+      {/* Input Area */}
+      <div className="flex-1 flex items-center justify-center">
         <div className="relative w-full max-w-xl text-center">
-          {/* CLICK TO TYPE */}
+          {/* Hint */}
           {!labelClicked && !hasText && (
-            <p className="text-[16px] text-gray-400 uppercase mb-2">CLICK TO TYPE</p>
+            <p className="text-[16px] text-gray-400 uppercase mb-2">
+              CLICK TO TYPE
+            </p>
           )}
 
           {/* Floating Label */}
           <label
             onClick={handleLabelClick}
-            className={`absolute left-1/2 transform -translate-x-1/2 cursor-text transition-all duration-300 ease-in-out font-light whitespace-nowrap ${
+            className={`label-clickable absolute left-1/2 transform -translate-x-1/2 cursor-text select-none transition-all duration-300 ease-in-out font-normal whitespace-nowrap ${
               labelClicked || hasText
-                ? "-top-8 text-[16px] text-gray-400 uppercase italic"
+                ? "top-[-2rem] text-[16px] uppercase text-gray-400"
                 : "top-[50%] -translate-y-1/2 text-[40px] text-black"
             }`}
           >
@@ -88,23 +100,39 @@ export default function StartAnalysis() {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            autoFocus={labelClicked}
-            className={`w-full bg-transparent border-b border-black outline-none text-[40px] text-black text-center font-light placeholder-transparent pt-2 ${
-              labelClicked ? "caret-black" : "caret-transparent"
-            }`}
+            onFocus={() => {
+              setInputFocused(true);
+              setLabelClicked(true);
+            }}
+            onBlur={() => {
+              setInputFocused(false);
+              if (!hasText) setLabelClicked(false);
+            }}
+            className="w-full bg-transparent border-b border-black outline-none text-[40px] text-black text-center font-normal placeholder-transparent caret-black pt-2"
+            spellCheck={false}
           />
         </div>
       </div>
 
       {/* Back Button */}
       <div className="absolute bottom-8 left-8">
-        <div onClick={() => navigate("/")} className="cursor-pointer">
+        <button
+          onClick={() => navigate("/")}
+          className="cursor-pointer focus:outline-none"
+          aria-label="Back"
+        >
           <RhombusButton direction="left" label="BACK" />
-        </div>
+        </button>
       </div>
     </div>
   );
 }
+
+
+
+
+
+
 
 
 

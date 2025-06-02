@@ -1,21 +1,21 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import StartAnalysis from "./pages/StartAnalysis";
+import ImageUploadChoice from "./pages/ImageUploadChoice";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Home route */}
         <Route path="/" element={<Home />} />
-
-        {/* Start Analysis route */}
+        {/* Match this path with Hero navigation */}
         <Route path="/start-analysis" element={<StartAnalysis />} />
+        <Route path="/upload" element={<ImageUploadChoice />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
 
