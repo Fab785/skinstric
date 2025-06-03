@@ -50,7 +50,7 @@ export default function AnalysisOverview() {
         {items.map((item, i) => (
           <div
             key={i}
-            className="absolute flex items-center justify-center bg-gray-200 text-black"
+            className="absolute flex items-center justify-center bg-gray-200 hover:bg-gray-300 cursor-pointer text-black transition-colors duration-200"
             style={{
               width: 120,
               height: 120,
@@ -97,4 +97,6 @@ export default function AnalysisOverview() {
     </div>
   );
 }
+
+
 
