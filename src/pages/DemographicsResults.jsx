@@ -13,6 +13,7 @@ export default function DemographicsResults() {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("race");
   const [reloadKey, setReloadKey] = useState(0);
+  const [selectedLabel, setSelectedLabel] = useState(null);
 
   useEffect(() => {
     if (incomingImage) {
@@ -34,9 +35,7 @@ export default function DemographicsResults() {
           "https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseTwo",
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ image: imageBase64 }),
           }
         );
@@ -56,14 +55,13 @@ export default function DemographicsResults() {
     fetchDemographics();
   }, [imageBase64, reloadKey]);
 
-  const formatSortedScores = (obj) => {
-    return Object.entries(obj)
+  const formatSortedScores = (obj) =>
+    Object.entries(obj)
       .sort((a, b) => b[1] - a[1])
       .map(([label, value]) => ({
         label,
-        value: (value * 100).toFixed(2),
+        value: (value * 100).toFixed(0),
       }));
-  };
 
   const getTopPrediction = (obj) => {
     const sorted = formatSortedScores(obj);
@@ -78,87 +76,94 @@ export default function DemographicsResults() {
   };
 
   return (
-    <div className="flex flex-col h-screen font-sans bg-white">
+    <div className="flex flex-col min-h-screen bg-white font-sans">
       {/* Header */}
-      <div className="px-8 pt-6 pb-3 border-b">
-        <p className="text-xs tracking-wide text-gray-500 mb-1">SKINSTRIC [ ANALYSIS ]</p>
-        <h1 className="text-3xl font-black tracking-tight">DEMOGRAPHICS</h1>
+      <div className="px-[64px] pt-[24px] pb-[16px]">
+        <p className="text-xs tracking-wide text-gray-500 mb-1">SKINSTRIC [ INTRO ]</p>
+        <p className="text-sm text-gray-500 mb-1">A.I. ANALYSIS</p>
+        <h1 className="text-[56px] font-black tracking-tight leading-none">DEMOGRAPHICS</h1>
         <p className="text-sm text-gray-500 mt-1">PREDICTED RACE & AGE</p>
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-1">
+      <div className="flex flex-1 px-[64px] pt-[60px] gap-[16px]">
         {/* Left Tabs */}
-        <div className="w-48 border-r p-4 space-y-2 bg-gray-50">
-          {["race", "age", "gender"].map((key) => {
-            const label = key === "race" ? "RACE" : key === "age" ? "AGE" : "SEX";
-            const topLabel = demographics ? getTopPrediction(demographics[key]).label : "";
-            return (
-              <div key={key}>
-                {key === activeTab && (
-                  <div className="text-xs text-black font-semibold mb-1 uppercase">
-                    {topLabel}
-                  </div>
-                )}
-                <button
-                  className={`w-full px-3 py-2 text-left text-sm uppercase font-medium border ${
-                    activeTab === key
-                      ? "bg-black text-white"
-                      : "bg-white text-black border-gray-200"
-                  }`}
-                  onClick={() => setActiveTab(key)}
-                >
-                  {label}
-                </button>
-              </div>
-            );
-          })}
-        </div>
+<div className="w-[190px] h-[464px] bg-white space-y-1 flex flex-col justify-start">
+  {["race", "age", "gender"].map((key) => {
+    const label = key === "race" ? "RACE" : key === "age" ? "AGE" : "SEX";
+    const top = demographics ? getTopPrediction(demographics[key]) : null;
 
-        {/* Center Prediction Circle */}
-        <div className="flex-1 flex items-center justify-center border-r">
-          {error && <p className="text-red-500">{error}</p>}
+    return (
+      <div
+        key={key}
+        className={`px-4 py-3 h-[104px] w-[190px] cursor-pointer flex flex-col justify-between ${
+          activeTab === key ? "bg-black text-white" : "bg-gray-100 text-black"
+        }`}
+        onClick={() => setActiveTab(key)}
+      >
+        <div className="text-base font-bold uppercase">{top ? top.label : "—"}</div>
+        <div className="text-base font-bold uppercase tracking-wide">{label}</div>
+      </div>
+    );
+  })}
+</div>
+
+
+        {/* Center Prediction Display */}
+        <div
+          className="flex flex-col justify-center bg-gray-100 border-t border-gray-200 px-8"
+          style={{ flex: 1, height: "464px" }}
+        >
+          {error && <p className="text-red-500">Error: {error}</p>}
           {!error && top ? (
-            <div className="text-center">
-              <div className="text-xl mb-6 capitalize">{top.label}</div>
-              <div className="w-40 h-40 rounded-full border-2 border-black flex items-center justify-center text-2xl font-bold">
-                {top.value}%
+            <>
+              <div className="text-left text-xl font-medium mb-6 capitalize">{top.label}</div>
+              <div className="flex justify-center items-center">
+                <div
+                  className="rounded-full flex items-center justify-center text-[32px] font-bold text-black relative"
+                  style={{
+                    width: "384px",
+                    height: "384px",
+                    background: `conic-gradient(black ${top.value}%, #e5e7eb ${top.value}% 100%)`,
+                  }}
+                >
+                  <div className="w-[344px] h-[344px] rounded-full bg-white flex items-center justify-center">
+                    {top.value}%
+                  </div>
+                </div>
               </div>
-            </div>
+            </>
           ) : (
-            !error && <p className="text-gray-400">Loading...</p>
+            <p className="text-gray-400">Loading...</p>
           )}
         </div>
 
-        {/* Right Breakdown Panel - Figma Styled */}
-        <div className="w-80 bg-gray-100 p-8 border-l">
-          <div className="flex justify-between items-center mb-4 text-sm text-gray-500 uppercase tracking-wider">
-            <span>
-              {activeTab === "race" ? "Race" : activeTab === "age" ? "Age" : "Sex"}
-            </span>
-            <span>A.I. Confidence</span>
+        {/* Right Panel: A.I. Confidence */}
+        <div
+          className="px-4 py-4 bg-gray-100"
+          style={{ width: "320px", height: "464px" }}
+        >
+          <div className="text-xs uppercase text-gray-500 font-medium mb-3 flex justify-between">
+            <span>{activeTab === "race" ? "RACE" : activeTab === "age" ? "AGE" : "SEX"}</span>
+            <span>A.I. CONFIDENCE</span>
           </div>
-
           {selectedCategoryData ? (
             <div className="space-y-2">
-              {formatSortedScores(selectedCategoryData).map(({ label, value }, index) => (
+              {formatSortedScores(selectedCategoryData).map(({ label, value }) => (
                 <div
-                  key={index}
-                  className={`flex items-center justify-between px-4 py-2 rounded ${
-                    index === 0
+                  key={label}
+                  className={`flex justify-between items-center px-4 py-2 rounded text-sm capitalize cursor-pointer ${
+                    selectedLabel === label
                       ? "bg-black text-white font-semibold"
                       : "text-black hover:bg-gray-200"
                   }`}
+                  onClick={() => setSelectedLabel(label)}
                 >
-                  <div className="flex items-center space-x-3">
-                    <span
-                      className={`w-3 h-3 transform rotate-45 border-2 ${
-                        index === 0 ? "bg-white border-white" : "border-black"
-                      }`}
-                    ></span>
-                    <span className="capitalize">{label}</span>
-                  </div>
-                  <span>{parseFloat(value).toFixed(0)}%</span>
+                  <span className="flex items-center space-x-2">
+                    <span className="w-2.5 h-2.5 border border-black rotate-45 bg-white"></span>
+                    <span>{label}</span>
+                  </span>
+                  <span>{value}%</span>
                 </div>
               ))}
             </div>
@@ -168,15 +173,17 @@ export default function DemographicsResults() {
         </div>
       </div>
 
-      {/* Bottom Actions */}
-      <div className="flex justify-between items-center border-t px-8 py-4 text-sm text-gray-400">
+      {/* Footer */}
+      <div className="flex justify-between items-center px-[64px] py-4">
         <div onClick={handleBackClick} className="cursor-pointer">
           <RhombusButton direction="left" label="BACK" />
         </div>
-
-        <div className="space-x-3">
+        <div className="text-gray-400 text-[16px]">
+          If A.I. estimate is wrong, select the correct one.
+        </div>
+        <div className="flex gap-3">
           <button
-            className="border px-4 py-1 border-black"
+            className="px-4 py-1 border border-black text-black hover:bg-gray-100"
             onClick={() => setReloadKey((k) => k + 1)}
           >
             RESET
@@ -184,13 +191,26 @@ export default function DemographicsResults() {
           <button className="bg-black text-white px-4 py-1">CONFIRM</button>
         </div>
       </div>
-
-      <div className="text-center text-xs text-gray-300 pb-2">
-        If A.I. estimate is wrong, select the correct one.
-      </div>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
