@@ -7,6 +7,10 @@ export default function LoadingPage() {
   const imageBase64 = location.state?.imageBase64;
 
   useEffect(() => {
+    if (imageBase64) {
+      localStorage.setItem("imageBase64", imageBase64);
+    }
+
     const timer = setTimeout(() => {
       navigate("/analysis-overview", {
         state: { imageBase64 },
@@ -45,3 +49,4 @@ export default function LoadingPage() {
     </div>
   );
 }
+

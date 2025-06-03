@@ -1,9 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import RhombusButton from "../UI/RhombusButtons";
 
 export default function AnalysisOverview() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const imageBase64 = location.state?.imageBase64;
 
   const handleGetSummary = () => {
     console.log("Proceeding to summary...");
@@ -15,6 +17,18 @@ export default function AnalysisOverview() {
     { label: "Weather", offsetX: 0, offsetY: 90 },
     { label: "Skin Type Details", offsetX: -90, offsetY: 0 },
   ];
+
+  const handleClick = (label) => {
+    if (label === "Demographics") {
+      if (!imageBase64) {
+        console.warn("No imageBase64 found in state");
+        return;
+      }
+      navigate("/results/demographics", {
+        state: { imageBase64 },
+      });
+    }
+  };
 
   return (
     <div className="w-full h-screen flex flex-col justify-between px-8 py-6 relative font-[Roobert TRIAL]">
@@ -50,7 +64,8 @@ export default function AnalysisOverview() {
         {items.map((item, i) => (
           <div
             key={i}
-            className="absolute flex items-center justify-center bg-gray-200 hover:bg-gray-300 cursor-pointer text-black transition-colors duration-200"
+            className="absolute flex items-center justify-center bg-gray-200 text-black hover:bg-gray-300 cursor-pointer transition-colors"
+            onClick={() => handleClick(item.label)}
             style={{
               width: 120,
               height: 120,
