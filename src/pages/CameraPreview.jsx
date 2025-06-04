@@ -1,59 +1,72 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Webcam from "react-webcam";
 import { FaCamera } from "react-icons/fa";
+import Webcam from "react-webcam";
 
 export default function CameraPreview() {
   const webcamRef = useRef(null);
   const navigate = useNavigate();
+  const [showMessage, setShowMessage] = useState(false);
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    navigate("/loading", { state: { imageBase64: imageSrc } });
+    setShowMessage(true);
+
+    setTimeout(() => {
+      navigate("/loading", { state: { imageBase64: imageSrc } });
+    }, 1500);
   }, [navigate]);
 
   return (
-    <div className="w-screen h-screen bg-black relative">
-      <Webcam
-        audio={false}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        className="w-full h-full object-cover"
-        videoConstraints={{
-          facingMode: "user",
-          width: 1280,
-          height: 720,
-        }}
-      />
-
-      {/* Top-Left Title */}
-      <div className="absolute top-6 left-6 text-white text-sm uppercase tracking-wide">
-        <span className="font-semibold">Skinstric</span>{" "}
-        <span className="opacity-80">[ analysis ]</span>
+    <div className="w-screen h-screen bg-[#D9D9D9] relative overflow-hidden">
+      {/* Header top-left */}
+      <div className="absolute top-6 left-6 text-white text-sm font-semibold uppercase tracking-wide">
+        Skinstric [ analysis ]
       </div>
 
-      {/* Camera Icon Button on Right Center */}
+      {/* Webcam */}
+      <div className="w-full h-full">
+        <Webcam
+          audio={false}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          className="w-full h-full object-cover"
+          videoConstraints={{
+            facingMode: "user",
+            width: 1280,
+            height: 720,
+          }}
+        />
+      </div>
+
+      {/* GREAT SHOT! message */}
+      {showMessage && (
+        <div className="absolute top-24 w-full text-center text-[#FCFCFC] text-[14px] font-semibold uppercase tracking-wider">
+          GREAT SHOT!
+        </div>
+      )}
+
+      {/* Camera icon button - right center */}
       <button
         onClick={capture}
-        className="absolute right-8 top-1/2 transform -translate-y-1/2 bg-white text-black p-4 rounded-full shadow-md"
+        className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 p-4 rounded-full text-white"
       >
-        <FaCamera className="w-6 h-6" />
+        <FaCamera size={20} />
       </button>
 
-      {/* Bottom Center Instruction */}
-      <div className="absolute bottom-6 w-full text-center text-white text-xs uppercase">
-        <p className="mb-2 font-medium tracking-wide">
-          To get better results make sure to have
+      {/* Bottom helper text */}
+      <div className="absolute bottom-12 w-full text-center text-white text-xs opacity-80">
+        <p className="mb-1">TO GET BETTER RESULTS MAKE SURE TO HAVE</p>
+        <p className="space-x-4">
+          <span>◉ NEUTRAL EXPRESSION</span>
+          <span>◉ FRONTAL POSE</span>
+          <span>◉ ADEQUATE LIGHTING</span>
         </p>
-        <div className="flex justify-center gap-6 opacity-80">
-          <span>◈ Neutral Expression</span>
-          <span>◈ Frontal Pose</span>
-          <span>◈ Adequate Lighting</span>
-        </div>
       </div>
     </div>
   );
 }
+
 
 
 
