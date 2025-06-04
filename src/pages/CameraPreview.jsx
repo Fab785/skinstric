@@ -1,6 +1,7 @@
 import React, { useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Webcam from "react-webcam";
+import { FaCamera } from "react-icons/fa";
 
 export default function CameraPreview() {
   const webcamRef = useRef(null);
@@ -12,29 +13,32 @@ export default function CameraPreview() {
   }, [navigate]);
 
   return (
-    <div className="w-screen h-screen bg-black flex flex-col items-center justify-center gap-6">
-      <div className="w-full h-full">
-        <Webcam
-          audio={false}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          className="w-full h-full object-cover"
-          videoConstraints={{
-            facingMode: "user",
-            width: 1280,
-            height: 720,
-          }}
-        />
-      </div>
+    <div className="w-screen h-screen bg-black relative overflow-hidden">
+      {/* Fullscreen Webcam */}
+      <Webcam
+        audio={false}
+        ref={webcamRef}
+        screenshotFormat="image/jpeg"
+        className="w-full h-full object-cover"
+        videoConstraints={{
+          facingMode: "user",
+          width: 1280,
+          height: 720,
+        }}
+      />
 
+      {/* Camera Icon Button (Middle Right Side) */}
       <button
         onClick={capture}
-        className="absolute bottom-12 bg-white text-black px-6 py-2 text-sm rounded uppercase shadow-md"
+        className="absolute right-10 top-1/2 -translate-y-1/2 bg-white rounded-full p-4 shadow-lg hover:scale-105 transition-transform"
       >
-        Take Photo
+        <FaCamera className="w-6 h-6 text-black" />
       </button>
     </div>
   );
 }
+
+
+
 
 
