@@ -1,25 +1,24 @@
-import React from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCamera, FaImage } from "react-icons/fa";
+import Webcam from "react-webcam";
 import RhombusButton from "../UI/RhombusButtons";
 
 export default function ImageUploadChoice() {
   const navigate = useNavigate();
+  const webcamRef = useRef(null);
+  const [showPermissionPopup, setShowPermissionPopup] = useState(false);
+  const [showWebcam, setShowWebcam] = useState(false);
 
-  // Dummy Base64 transparent image
-  const dummyImage =
-    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
-
-  const handleCameraAccess = () => {
-    navigate("/loading", {
-      state: { imageBase64: dummyImage },
-    });
-  };
+  const capture = useCallback(() => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    navigate("/loading", { state: { imageBase64: imageSrc } });
+  }, [navigate]);
 
   const handleGalleryAccess = () => {
-    navigate("/loading", {
-      state: { imageBase64: dummyImage },
-    });
+    const dummyImage =
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
+    navigate("/loading", { state: { imageBase64: dummyImage } });
   };
 
   const DiamondBackground = () => (
@@ -51,22 +50,26 @@ export default function ImageUploadChoice() {
         </p>
       </div>
 
-      {/* Center Options */}
-      <div className="flex-1 flex items-center justify-center gap-64">
-        {/* Camera Section */}
-        <div
-          className="relative w-64 h-64 flex items-center justify-center cursor-pointer"
-          onClick={handleCameraAccess}
-        >
+      {/* Center */}
+      <div className="flex-1 flex items-center justify-center gap-64 relative">
+        {/* CAMERA BUTTON */}
+        <div className="relative w-64 h-64 flex items-center justify-center cursor-pointer">
           <DiamondBackground />
-          <div className="z-10 w-24 h-24 flex items-center justify-center rounded-full border-2 border-black text-black text-3xl bg-white">
+          <div
+            className="z-10 w-24 h-24 flex items-center justify-center rounded-full border-2 border-black text-black text-3xl bg-white"
+            onClick={() => setShowPermissionPopup(true)}
+          >
             <FaCamera />
           </div>
-          <div className="absolute top-4 right-4 text-xs text-black uppercase text-right leading-tight w-32 z-10">
+
+          {/* Top-right label */}
+          <div className="absolute top-4 right-[-20px] text-xs text-black uppercase text-right leading-tight w-32 z-10">
             ALLOW A.I.
             <br />
             TO SCAN YOUR FACE
           </div>
+
+          {/* Diagonal line */}
           <div
             className="absolute w-[2px] bg-black z-0"
             style={{
@@ -77,11 +80,52 @@ export default function ImageUploadChoice() {
               transformOrigin: "top left",
             }}
           />
+
+          {/* POPUP: Ask for permission (moved to the right) */}
+          {showPermissionPopup && !showWebcam && (
+            <div className="absolute bg-black text-white text-xs px-4 py-3 rounded shadow z-20 left-[230px] top-[50px] w-48">
+              <p className="mb-2 uppercase">Allow A.I. to access your camera</p>
+              <div className="flex justify-between mt-2">
+                <button
+                  onClick={() => setShowWebcam(true)}
+                  className="text-xs uppercase bg-white text-black px-3 py-1 rounded"
+                >
+                  Allow
+                </button>
+                <button
+                  onClick={() => setShowPermissionPopup(false)}
+                  className="text-xs uppercase text-gray-400"
+                >
+                  Deny
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* SHOW CAMERA PREVIEW */}
+          {showWebcam && (
+            <div className="absolute top-0 left-0 w-full h-full bg-black z-30 flex flex-col items-center justify-center gap-4">
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                className="w-full h-48 object-cover rounded"
+              />
+              <button
+                onClick={capture}
+                className="bg-white text-black px-4 py-1 text-sm rounded uppercase"
+              >
+                Take Photo
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Gallery Section */}
+        {/* GALLERY BUTTON */}
         <div
-          className="relative w-64 h-64 flex items-center justify-center cursor-pointer"
+          className={`relative w-64 h-64 flex items-center justify-center cursor-pointer ${
+            showPermissionPopup && !showWebcam ? "opacity-40 pointer-events-none" : ""
+          }`}
           onClick={handleGalleryAccess}
         >
           <DiamondBackground />
@@ -106,7 +150,7 @@ export default function ImageUploadChoice() {
         </div>
       </div>
 
-      {/* Back Button */}
+      {/* BACK BUTTON */}
       <div className="absolute bottom-8 left-8">
         <div onClick={() => navigate("/")} className="cursor-pointer">
           <RhombusButton direction="left" label="BACK" />
@@ -115,6 +159,11 @@ export default function ImageUploadChoice() {
     </div>
   );
 }
+
+
+
+
+
 
 
 

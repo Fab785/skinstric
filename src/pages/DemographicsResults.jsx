@@ -82,18 +82,26 @@ export default function DemographicsResults() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white font-sans">
+      {/* Top Nav Bar */}
+    <div className="px-[22px] pt-[24px] pb-[16px] bg-white">
+     <div className="text-sm font-bold text-black">
+        SKINSTRIC <span className="text-gray-400">[ ANALYSIS ]</span>
+    </div>
+    <div className="text-sm font-bold text-black mt-[48px]">A. I. ANALYSIS</div>
+    </div>
+
+
       {/* Header */}
-      <div className="px-[64px] pt-[32px] pb-[12px]">
-        <p className="text-xs tracking-wide text-black mb-1 font-semibold">SKINSTRIC [ ANALYSIS ]</p>
-        <p className="text-sm text-black mb-3 font-medium">A.I. ANALYSIS</p>
-        <h1 className="text-[60px] font-black leading-[64px] tracking-tight">DEMOGRAPHICS</h1>
-        <p className="text-sm text-black mt-1 tracking-wide uppercase">PREDICTED RACE & AGE</p>
-      </div>
+<div className="px-[16px] pt-[0px] pb-[16px]">
+  <h1 className="text-[56px] font-black tracking-tight leading-none">DEMOGRAPHICS</h1>
+  <p className="text-sm text-black mt-1">PREDICTED RACE & AGE</p>
+</div>
+
 
       {/* Main Content */}
-      <div className="flex flex-1 px-[64px] pt-[80px] gap-[16px]">
+      <div className="flex flex-1 px-[22px] pt-[60px] gap-[16px]">
         {/* Left Tabs */}
-        <div className="w-[208px] h-[464px] space-y-2 flex flex-col justify-start">
+        <div className="w-[208px] h-[464px] bg-white space-y-1 flex flex-col justify-start py-2">
           {["race", "age", "gender"].map((key) => {
             const label = key === "race" ? "RACE" : key === "age" ? "AGE" : "SEX";
             const top = demographics ? getTopPrediction(demographics[key]) : null;
@@ -101,13 +109,15 @@ export default function DemographicsResults() {
             return (
               <div
                 key={key}
-                className={`px-4 py-4 border-t border-b border-black cursor-pointer w-[190px] h-[104px] flex flex-col justify-center ${
+                className={`px-4 py-3 border-b border-black cursor-pointer w-[190px] h-[104px] flex flex-col justify-between ${
                   activeTab === key ? "bg-black text-white" : "bg-gray-100 text-black"
                 }`}
                 onClick={() => setActiveTab(key)}
               >
-                <div className="text-xl font-semibold capitalize">{top ? top.label : "—"}</div>
-                <div className="text-sm font-semibold tracking-wide mt-1 text-gray-500 uppercase">
+                <div className="text-base font-bold uppercase leading-tight">
+                  {top ? top.label : "—"}
+                </div>
+                <div className="text-base font-bold uppercase tracking-wide">
                   {label}
                 </div>
               </div>
@@ -117,13 +127,13 @@ export default function DemographicsResults() {
 
         {/* Center Prediction Display */}
         <div
-          className="flex flex-col justify-center bg-gray-100 px-8 border-t border-black"
+          className="flex flex-col justify-center bg-gray-100 px-8"
           style={{ width: "880px", height: "464px" }}
         >
           {error && <p className="text-red-500">Error: {error}</p>}
           {!error && top ? (
             <>
-              <div className="text-left text-2xl font-bold mb-6 capitalize">{top.label}</div>
+              <div className="text-left text-xl font-medium mb-6 capitalize">{top.label}</div>
               <div className="flex justify-center items-center">
                 <div
                   className="rounded-full flex items-center justify-center text-[32px] font-bold text-black relative"
@@ -133,7 +143,7 @@ export default function DemographicsResults() {
                     background: `conic-gradient(black ${top.value}%, #e5e7eb ${top.value}% 100%)`,
                   }}
                 >
-                  <div className="w-[372px] h-[372px] rounded-full bg-white flex items-center justify-center">
+                  <div className="w-[372px] h-[372px] rounded-full bg-white flex items-center justify-center border border-gray-300">
                     {top.value}%
                   </div>
                 </div>
@@ -146,10 +156,10 @@ export default function DemographicsResults() {
 
         {/* Right Panel: A.I. Confidence */}
         <div
-          className="px-4 pt-4 pb-6 bg-gray-100 border-t border-black"
+          className="px-4 py-4 bg-gray-100"
           style={{ width: "320px", height: "464px" }}
         >
-          <div className="text-xs uppercase text-gray-500 font-semibold mb-3 flex justify-between">
+          <div className="text-xs uppercase text-gray-500 font-medium mb-3 flex justify-between">
             <span>{activeTab === "race" ? "RACE" : activeTab === "age" ? "AGE" : "SEX"}</span>
             <span>A.I. CONFIDENCE</span>
           </div>
@@ -159,9 +169,7 @@ export default function DemographicsResults() {
                 <div
                   key={index}
                   className={`flex justify-between items-center px-4 py-2 rounded text-sm capitalize cursor-pointer ${
-                    selectedOption === label
-                      ? "bg-black text-white font-semibold"
-                      : "text-black hover:bg-gray-300"
+                    selectedOption === label ? "bg-black text-white font-semibold" : "text-black hover:bg-gray-200"
                   }`}
                   onClick={() => setSelectedOption(label)}
                 >
@@ -180,8 +188,8 @@ export default function DemographicsResults() {
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center px-[64px] py-4 text-sm">
-        <div onClick={handleBackClick} className="cursor-pointer">
+      <div className="flex justify-between items-center px-[22px] py-4 text-sm">
+        <div onClick={handleBackClick} className="cursor-pointer ml-[-8px]">
           <RhombusButton direction="left" label="BACK" />
         </div>
         <div className="text-gray-400 text-base">
@@ -200,6 +208,8 @@ export default function DemographicsResults() {
     </div>
   );
 }
+
+
 
 
 
