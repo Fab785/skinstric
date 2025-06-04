@@ -7,6 +7,8 @@ import ImageUploadChoice from "./pages/ImageUploadChoice";
 import LoadingPage from "./pages/LoadingPage";
 import AnalysisOverview from "./pages/AnalysisOverview";
 import DemographicsResults from "./pages/DemographicsResults";
+import SettingUpCamera from "./pages/SettingUpCamera"; // NEW
+import CameraPreview from "./pages/CameraPreview";     // NEW
 
 function App() {
   return (
@@ -18,12 +20,15 @@ function App() {
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/analysis-overview" element={<AnalysisOverview />} />
         <Route path="/results/demographics" element={<DemographicsResults />} />
+        <Route path="/setting-up-camera" element={<SettingUpCamera />} /> {/* NEW */}
+        <Route path="/camera-preview" element={<CameraPreview />} />       {/* NEW */}
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
 
 
 
