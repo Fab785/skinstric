@@ -14,10 +14,9 @@ export default function StartAnalysis() {
 
   const value = step === 1 ? name : location;
   const setValue = step === 1 ? setName : setLocation;
-  const label = step === 1 ? "Introduce Yourself" : "Where are you from?"; // Capitalize only first letters
+  const label = step === 1 ? "Introduce Yourself" : "Where are you from?";
   const hasText = value.trim().length > 0;
 
-  // Handle Enter key
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && hasText) {
       if (step === 1) {
@@ -33,13 +32,11 @@ export default function StartAnalysis() {
     }
   };
 
-  // Click label to focus input
   const handleLabelClick = () => {
     setLabelClicked(true);
     inputRef.current?.focus();
   };
 
-  // Handle clicks outside input
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -62,11 +59,12 @@ export default function StartAnalysis() {
   return (
     <div className="w-full h-screen flex flex-col justify-between px-8 py-6 font-roobert">
       {/* Top Labels */}
-      <div className="text-left space-y-1">
-        <p className="text-[16px] font-normal text-black">
-          SKINSTRIC <span className="text-gray-400 font-light">[ intro ]</span>
+      <div className="text-left">
+        <p className="text-[16px] font-medium text-black">
+          <span className="text-black">SKINSTRIC</span>{" "}
+          <span className="text-gray-400 font-light">[ INTRO ]</span>
         </p>
-        <p className="text-[16px] font-normal text-black mt-4">
+        <p className="text-[16px] font-medium text-black mt-10">
           TO START ANALYSIS
         </p>
       </div>
@@ -74,14 +72,12 @@ export default function StartAnalysis() {
       {/* Input Area */}
       <div className="flex-1 flex items-center justify-center">
         <div className="relative w-full max-w-xl text-center">
-          {/* Hint */}
           {!labelClicked && !hasText && (
             <p className="text-[16px] text-gray-400 uppercase mb-2">
               CLICK TO TYPE
             </p>
           )}
 
-          {/* Floating Label */}
           <label
             onClick={handleLabelClick}
             className={`label-clickable absolute left-1/2 transform -translate-x-1/2 cursor-text select-none transition-all duration-300 ease-in-out font-normal whitespace-nowrap ${
@@ -93,7 +89,6 @@ export default function StartAnalysis() {
             {label}
           </label>
 
-          {/* Input */}
           <input
             ref={inputRef}
             type="text"
@@ -127,6 +122,7 @@ export default function StartAnalysis() {
     </div>
   );
 }
+
 
 
 
