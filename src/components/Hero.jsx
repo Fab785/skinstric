@@ -17,11 +17,27 @@ export default function Hero() {
         <h1
           className={`
             text-7xl md:text-8xl font-semibold leading-tight transition-transform duration-700 ease-in-out
-            ${hoverTarget === "left" ? "translate-x-[28vw]" : ""}
-            ${hoverTarget === "right" ? "-translate-x-[28vw]" : ""}
+            flex flex-col items-center
           `}
         >
-          Sophisticated <br /> Skincare
+          <span
+            className={`
+              transition-transform duration-700 ease-in-out
+              ${hoverTarget === "left" ? "translate-x-[28vw]" : ""}
+              ${hoverTarget === "right" ? "-translate-x-[28vw]" : ""}
+            `}
+          >
+            Sophisticated
+          </span>
+          <span
+            className={`
+              transition-transform duration-700 ease-in-out
+              ${hoverTarget === "left" ? "translate-x-[34vw]" : ""}
+              ${hoverTarget === "right" ? "-translate-x-[34vw]" : ""}
+            `}
+          >
+            Skincare
+          </span>
         </h1>
 
         {/* Mobile button */}
@@ -42,10 +58,8 @@ export default function Hero() {
               ${hoverTarget === "right" ? "opacity-0" : "opacity-100"}
             `}
           >
-            {/* Always-visible main dotted diamond */}
+            {/* Dotted Diamonds */}
             <div className="absolute top-1/2 left-[-250px] transform -translate-y-1/2 w-[400px] h-[400px] border-[2px] border-dotted border-gray-600 rotate-45 opacity-70 pointer-events-none z-0" />
-
-            {/* Extra diamonds on hover */}
             {hoverTarget === "left" && (
               <>
                 <div className="absolute top-1/2 left-[-350px] transform -translate-y-1/2 w-[500px] h-[500px] border-[2px] border-dotted border-gray-500 rotate-45 opacity-40 pointer-events-none z-0" />
@@ -69,10 +83,8 @@ export default function Hero() {
               ${hoverTarget === "left" ? "opacity-0" : "opacity-100"}
             `}
           >
-            {/* Always-visible main dotted diamond */}
+            {/* Dotted Diamonds */}
             <div className="absolute top-1/2 right-[-250px] transform -translate-y-1/2 w-[400px] h-[400px] border-[2px] border-dotted border-gray-600 rotate-45 opacity-70 pointer-events-none z-0" />
-
-            {/* Extra diamonds on hover */}
             {hoverTarget === "right" && (
               <>
                 <div className="absolute top-1/2 right-[-350px] transform -translate-y-1/2 w-[500px] h-[500px] border-[2px] border-dotted border-gray-500 rotate-45 opacity-40 pointer-events-none z-0" />
@@ -101,8 +113,6 @@ export default function Hero() {
     </div>
   );
 }
-
-
 
 
 
