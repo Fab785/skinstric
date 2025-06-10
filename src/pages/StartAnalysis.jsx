@@ -72,6 +72,13 @@ export default function StartAnalysis() {
       {/* Input Area */}
       <div className="flex-1 flex items-center justify-center">
         <div className="relative w-full max-w-xl text-center">
+          {/* Centered Dotted Rhombuses */}
+          <div className="absolute left-[23%] top-[-60%] transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
+            <div className="absolute w-[320px] h-[320px] border-2 border-dotted border-gray-600 rotate-45" />
+            <div className="absolute w-[400px] h-[400px] border-2 border-dotted border-gray-500 rotate-45 top-[-40px] left-[-40px]" />
+            <div className="absolute w-[480px] h-[480px] border-2 border-dotted border-gray-400 rotate-45 top-[-80px] left-[-80px]" />
+          </div>
+
           {!labelClicked && !hasText && (
             <p className="text-[16px] text-gray-400 uppercase mb-2">
               CLICK TO TYPE
@@ -103,7 +110,7 @@ export default function StartAnalysis() {
               setInputFocused(false);
               if (!hasText) setLabelClicked(false);
             }}
-            className="w-full bg-transparent border-b border-black outline-none text-[40px] text-black text-center font-normal placeholder-transparent caret-black pt-2"
+            className="w-full bg-transparent border-b border-black outline-none text-[40px] text-black text-center font-normal placeholder-transparent caret-black pt-2 relative z-10"
             spellCheck={false}
           />
         </div>
@@ -122,6 +129,7 @@ export default function StartAnalysis() {
     </div>
   );
 }
+
 
 
 
