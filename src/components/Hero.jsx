@@ -61,8 +61,16 @@ export default function Hero() {
               ${hoverTarget === "left" ? "opacity-0" : "opacity-100"}
             `}
           >
-            {/* Dotted Diamond */}
-            <div className="absolute top-1/2 right-[-250px] transform -translate-y-1/2 w-[400px] h-[400px] border-[2px] border-dotted border-gray-500 rotate-45 opacity-70 pointer-events-none z-0" />
+            {/* Main Dotted Diamond (always visible) */}
+            <div className="absolute top-1/2 right-[-250px] transform -translate-y-1/2 w-[400px] h-[400px] border-[2px] border-dotted border-gray-600 rotate-45 opacity-70 pointer-events-none z-0" />
+
+            {/* Extra Dotted Diamonds on hover */}
+            {hoverTarget === "right" && (
+              <>
+                <div className="absolute top-1/2 right-[-350px] transform -translate-y-1/2 w-[500px] h-[500px] border-[2px] border-dotted border-gray-500 rotate-45 opacity-40 pointer-events-none z-0" />
+                <div className="absolute top-1/2 right-[-450px] transform -translate-y-1/2 w-[600px] h-[600px] border-[2px] border-dotted border-gray-400 rotate-45 opacity-20 pointer-events-none z-0" />
+              </>
+            )}
 
             {/* Button */}
             <div
@@ -85,6 +93,9 @@ export default function Hero() {
     </div>
   );
 }
+
+
+
 
 
 
