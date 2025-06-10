@@ -69,7 +69,7 @@ export default function Hero() {
 
             {/* Button */}
             <div
-              className="relative z-10 ml-[-210px] pointer-events-auto"
+              className="relative z-10 ml-[-140px] pointer-events-auto"
               onMouseEnter={() => setHoverTarget("left")}
               onMouseLeave={() => setHoverTarget(null)}
             >
@@ -94,7 +94,7 @@ export default function Hero() {
 
             {/* Button */}
             <div
-              className="relative z-10 mr-[-250px] pointer-events-auto"
+              className="relative z-10 mr-[-160px] pointer-events-auto"
               onMouseEnter={() => setHoverTarget("right")}
               onMouseLeave={() => setHoverTarget(null)}
             >
@@ -113,7 +113,6 @@ export default function Hero() {
     </div>
   );
 }
-
 
 
 
