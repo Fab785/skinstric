@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCamera, FaImage } from "react-icons/fa";
 import RhombusButton from "../UI/RhombusButtons";
@@ -6,24 +6,11 @@ import RhombusButton from "../UI/RhombusButtons";
 export default function ImageUploadChoice() {
   const navigate = useNavigate();
   const [showPermissionPopup, setShowPermissionPopup] = useState(false);
-  const fileInputRef = useRef();
 
   const handleGalleryAccess = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result;
-        navigate("/loading", { state: { imageBase64: base64 } });
-      };
-      reader.readAsDataURL(file);
-    }
+    const dummyImage =
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
+    navigate("/loading", { state: { imageBase64: dummyImage } });
   };
 
   const DiamondBackground = () => (
@@ -45,15 +32,6 @@ export default function ImageUploadChoice() {
 
   return (
     <div className="w-full h-screen flex flex-col justify-between px-8 py-6 relative">
-      {/* Hidden file input */}
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        style={{ display: "none" }}
-      />
-
       {/* Top Text */}
       <div className="text-left uppercase space-y-1">
         <p className="text-[16px] font-normal text-black">
