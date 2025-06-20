@@ -23,8 +23,6 @@
 /* Base body styles with fallback font */
 body {
   margin: 0;
-  padding: 0;
-  overflow: hidden;
   font-family: 'Roobert TRIAL', sans-serif;
   font-weight: 400; /* Default normal weight */
   -webkit-font-smoothing: antialiased;
@@ -51,11 +49,6 @@ body {
   letter-spacing: -0.03em;
   line-height: 48px;
 }
-
-
-
-
-
 
 
 
