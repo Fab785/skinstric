@@ -1,37 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaPlay } from "react-icons/fa";
 
-export default function RhombusButton({ direction = "right", label, onClick }) {
+export default function RhombusButton({ direction = "right", label, onClick, disableHover = false }) {
   const isLeft = direction === "left";
+  const [isHovered, setIsHovered] = useState(false);
+
+  const shouldHover = !disableHover && isHovered;
 
   return (
     <button
       onClick={onClick}
-      className={`w-[150px] h-[44px] flex items-center ${
+      onMouseEnter={() => !disableHover && setIsHovered(true)}
+      onMouseLeave={() => !disableHover && setIsHovered(false)}
+      style={{ minWidth: "150px" }}
+      className={`flex items-center gap-4 px-4 h-[44px] ${
         isLeft ? "flex-row-reverse" : "flex-row"
-      } gap-4 group cursor-pointer select-none`}
+      } group cursor-pointer select-none`}
       aria-label={label}
-      type="button"
     >
       {/* Label */}
-      <span className="text-black text-[16px] uppercase tracking-wide font-semibold group-hover:underline">
+      <span
+        className={`text-black text-[16px] uppercase tracking-wide font-semibold transition-all duration-300 ease-in-out ${
+          shouldHover ? (isLeft ? "mr-6" : "ml-6") : ""
+        } ${!disableHover ? "group-hover:underline" : ""}`}
+      >
         {label}
       </span>
 
-      {/* Rhombus Container */}
-      <div className="w-6 h-6 border-2 border-black transform rotate-45 flex items-center justify-center">
+      {/* Rhombus */}
+      <div
+        className={`relative transform rotate-45 transition-all duration-300 ease-in-out ${
+          shouldHover ? "w-[78px] h-[78px] border border-black" : "w-6 h-6 border-2 border-black"
+        } flex items-center justify-center`}
+      >
+        {/* Inner dotted rhombus */}
+        {shouldHover && (
+          <div
+            className="absolute inset-2 rotate-45"
+            style={{ transform: "rotate(45deg)" }}
+          >
+            <div
+              className="w-full h-full border-2 border-dotted border-black"
+              style={{ transform: "rotate(-45deg)" }}
+            />
+          </div>
+        )}
+
         <FaPlay
-          className={`text-black text-[8px] transform ${
+          className={`text-black transition-transform duration-300 ease-in-out ${
             isLeft ? "rotate-[135deg]" : "-rotate-45"
-          }`}
-          aria-hidden="true"
-          focusable="false"
+          } ${shouldHover ? "text-[16px]" : "text-[8px]"}`}
         />
       </div>
     </button>
   );
 }
-
 
 
 
