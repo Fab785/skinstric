@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCamera, FaImage } from "react-icons/fa";
 import RhombusButton from "../UI/RhombusButtons";
@@ -6,11 +6,22 @@ import RhombusButton from "../UI/RhombusButtons";
 export default function ImageUploadChoice() {
   const navigate = useNavigate();
   const [showPermissionPopup, setShowPermissionPopup] = useState(false);
+  const fileInputRef = useRef(null);
 
   const handleGalleryAccess = () => {
-    const dummyImage =
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
-    navigate("/loading", { state: { imageBase64: dummyImage } });
+    fileInputRef.current?.click(); // Open file picker
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      navigate("/loading", { state: { imageBase64: base64 } });
+    };
+    reader.readAsDataURL(file);
   };
 
   const DiamondBackground = () => (
@@ -121,20 +132,27 @@ export default function ImageUploadChoice() {
               transformOrigin: "bottom left",
             }}
           />
+
+          {/* Hidden file input */}
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
         </div>
       </div>
 
       {/* BACK BUTTON */}
       <div className="absolute bottom-8 left-8">
         <div onClick={() => navigate("/")} className="cursor-pointer">
-          <RhombusButton direction="left" label="BACK" />
+          <RhombusButton direction="left" label="BACK" disableHover />
         </div>
       </div>
     </div>
   );
 }
-
-
 
 
 
