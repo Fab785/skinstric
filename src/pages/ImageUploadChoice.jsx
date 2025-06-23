@@ -42,7 +42,7 @@ export default function ImageUploadChoice() {
   );
 
   return (
-    <div className="w-full h-screen flex flex-col justify-between px-8 py-6 relative">
+    <div className="w-full h-screen flex flex-col justify-between px-4 md:px-8 py-6 relative">
       {/* Top Text */}
       <div className="text-left uppercase space-y-1">
         <p className="text-[16px] font-normal text-black">
@@ -54,9 +54,9 @@ export default function ImageUploadChoice() {
       </div>
 
       {/* Center */}
-      <div className="flex-1 flex items-center justify-center gap-64 relative">
+      <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-12 md:gap-64 relative">
         {/* CAMERA BUTTON */}
-        <div className="relative w-64 h-64 flex items-center justify-center cursor-pointer">
+        <div className="relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center cursor-pointer">
           <DiamondBackground />
           <div
             className="z-10 w-24 h-24 flex items-center justify-center rounded-full border-2 border-black text-black text-3xl bg-white"
@@ -86,7 +86,7 @@ export default function ImageUploadChoice() {
 
           {/* POPUP: Ask for permission */}
           {showPermissionPopup && (
-            <div className="absolute bg-black text-white text-xs px-4 py-3 rounded shadow z-20 left-[210px] top-[50px] w-48">
+            <div className="absolute bg-black text-white text-xs px-4 py-3 rounded shadow z-20 top-20 left-4 right-4 md:left-[210px] md:w-48 md:right-auto">
               <p className="mb-2 uppercase">Allow A.I. to access your camera</p>
               <div className="flex justify-between mt-2">
                 <button
@@ -108,7 +108,7 @@ export default function ImageUploadChoice() {
 
         {/* GALLERY BUTTON */}
         <div
-          className={`relative w-64 h-64 flex items-center justify-center cursor-pointer ${
+          className={`relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center cursor-pointer ${
             showPermissionPopup ? "opacity-40 pointer-events-none" : ""
           }`}
           onClick={handleGalleryAccess}
@@ -153,6 +153,7 @@ export default function ImageUploadChoice() {
     </div>
   );
 }
+
 
 
 
