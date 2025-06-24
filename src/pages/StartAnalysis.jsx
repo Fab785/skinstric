@@ -53,14 +53,17 @@ export default function StartAnalysis() {
       </div>
 
       {/* Perfectly Centered Spinning Rhombuses */}
-      <div className="absolute top-[35%] left-[35%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
-        <div className="absolute w-[500px] h-[500px] border border-dotted border-[2px] border-[#E5E7EB] rotate-45 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spin-slow max-md:w-[400px] max-md:h-[400px]" />
+      <div className="absolute top-[30%] left-[35%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
+        <div
+          className="absolute w-[500px] h-[500px] border border-dotted border-[2px] border-[#E5E7EB] rotate-45 spin-slow max-md:w-[400px] max-md:h-[400px]"
+          style={{ top: "40%", left: "40%" }}
+        />
         <div className="absolute w-[450px] h-[450px] border border-dotted border-[2px] border-[#D1D5DB] rotate-45 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spin-slower max-md:w-[350px] max-md:h-[350px]" />
         <div className="absolute w-[400px] h-[400px] border border-dotted border-[2px] border-[#A0A4AB] rotate-45 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spin-slowest max-md:w-[300px] max-md:h-[300px]" />
       </div>
 
-      {/* CENTER INPUT */}
-      <div className="flex-1 flex items-center justify-center">
+      {/* CENTER INPUT with more upward shift */}
+      <div className="flex-1 flex items-center justify-center -mt-16">
         <div className="relative w-[300px] h-[160px] mx-auto text-center flex flex-col items-center justify-center">
           {!labelClicked && !hasText && (
             <p className="text-[16px] text-gray-400 uppercase mb-2">CLICK TO TYPE</p>
@@ -73,7 +76,7 @@ export default function StartAnalysis() {
             }}
             className={`label-clickable absolute left-1/2 transform -translate-x-1/2 cursor-text select-none transition-all duration-300 ease-in-out font-normal whitespace-nowrap ${
               labelClicked || hasText
-                ? "top-[15%] text-[16px] uppercase text-gray-400"
+                ? "top-[8%] text-[16px] uppercase text-gray-400"
                 : "top-1/2 -translate-y-1/2 text-[40px] text-black"
             }`}
           >
