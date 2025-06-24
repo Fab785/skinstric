@@ -12,10 +12,10 @@ export default function AnalysisOverview() {
   };
 
   const items = [
-    { label: "Demographics", offsetX: 0, offsetY: -90 },
-    { label: "Cosmetic Concerns", offsetX: 90, offsetY: 0 },
-    { label: "Weather", offsetX: 0, offsetY: 90 },
-    { label: "Skin Type Details", offsetX: -90, offsetY: 0 },
+    { label: "Demographics", offsetX: 0, offsetY: -140 },
+    { label: "Cosmetic Concerns", offsetX: 140, offsetY: 0 },
+    { label: "Weather", offsetX: 0, offsetY: 140 },
+    { label: "Skin Type Details", offsetX: -140, offsetY: 0 },
   ];
 
   const handleClick = (label) => {
@@ -49,16 +49,24 @@ export default function AnalysisOverview() {
 
       {/* Center Rhombus Section */}
       <div className="flex-1 flex items-center justify-center relative">
-        {/* Outer Big Rhombus */}
-        <div
-          className="absolute bg-transparent border border-gray-400"
-          style={{
-            width: 314,
-            height: 314,
-            transform: "rotate(-45deg)",
-            zIndex: 1,
-          }}
-        />
+        {/* Dotted Outer Rhombuses */}
+        {[2.4, 2.6, 2.8].map((scale, i) => (
+          <div
+            key={`dotted-${i}`}
+            className="absolute"
+            style={{
+              width: 192,
+              height: 192,
+              top: "50%",
+              left: "50%",
+              transform: `translate(-50%, -50%) rotate(-45deg) scale(${scale})`,
+              zIndex: 0,
+              border: "1px dotted",
+              borderColor: `rgba(100, 100, 100, ${0.4 - i * 0.1})`, // fading effect
+              borderWidth: "1px",
+            }}
+          />
+        ))}
 
         {/* Inner Rhombuses */}
         {items.map((item, i) => (
@@ -67,8 +75,8 @@ export default function AnalysisOverview() {
             className="absolute flex items-center justify-center bg-gray-200 text-black hover:bg-gray-300 cursor-pointer transition-colors"
             onClick={() => handleClick(item.label)}
             style={{
-              width: 120,
-              height: 120,
+              width: 192,
+              height: 192,
               top: `calc(50% + ${item.offsetY}px)`,
               left: `calc(50% + ${item.offsetX}px)`,
               transform: "translate(-50%, -50%) rotate(-45deg)",
@@ -112,6 +120,7 @@ export default function AnalysisOverview() {
     </div>
   );
 }
+
 
 
 
