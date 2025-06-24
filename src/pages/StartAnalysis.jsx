@@ -58,8 +58,14 @@ export default function StartAnalysis() {
           className="absolute w-[500px] h-[500px] border border-dotted border-[2px] border-[#E5E7EB] rotate-45 spin-slow max-md:w-[400px] max-md:h-[400px]"
           style={{ top: "40%", left: "40%" }}
         />
-        <div className="absolute w-[450px] h-[450px] border border-dotted border-[2px] border-[#D1D5DB] rotate-45 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spin-slower max-md:w-[350px] max-md:h-[350px]" />
-        <div className="absolute w-[400px] h-[400px] border border-dotted border-[2px] border-[#A0A4AB] rotate-45 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 spin-slowest max-md:w-[300px] max-md:h-[300px]" />
+        <div
+          className="absolute w-[450px] h-[450px] border border-dotted border-[2px] border-[#D1D5DB] rotate-45 spin-slower max-md:w-[350px] max-md:h-[350px]"
+          style={{ top: "42%", left: "44%", transform: "translate(-50%, -50%)" }}
+        />
+        <div
+          className="absolute w-[400px] h-[400px] border border-dotted border-[2px] border-[#A0A4AB] rotate-45 spin-slowest max-md:w-[300px] max-md:h-[300px]"
+          style={{ top: "42%", left: "44%", transform: "translate(-50%, -50%)" }}
+        />
       </div>
 
       {/* CENTER INPUT with more upward shift */}
@@ -109,11 +115,6 @@ export default function StartAnalysis() {
     </div>
   );
 }
-
-
-
-
-
 
 
 
