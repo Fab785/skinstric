@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import RhombusButton from "../UI/RhombusButtons";
 
@@ -6,6 +6,8 @@ export default function AnalysisOverview() {
   const navigate = useNavigate();
   const location = useLocation();
   const imageBase64 = location.state?.imageBase64;
+
+  const [showDotted, setShowDotted] = useState(false);
 
   const handleGetSummary = () => {
     console.log("Proceeding to summary...");
@@ -49,11 +51,11 @@ export default function AnalysisOverview() {
 
       {/* Center Rhombus Section */}
       <div className="flex-1 flex items-center justify-center relative">
-        {/* Dotted Outer Rhombuses */}
-        {[2.4, 2.6, 2.8].map((scale, i) => (
+        {/* Animated Dotted Rhombuses */}
+        {[2.8, 2.6, 2.4].map((scale, i) => (
           <div
             key={`dotted-${i}`}
-            className="absolute"
+            className={`absolute transition-opacity duration-500`}
             style={{
               width: 192,
               height: 192,
@@ -62,18 +64,24 @@ export default function AnalysisOverview() {
               transform: `translate(-50%, -50%) rotate(-45deg) scale(${scale})`,
               zIndex: 0,
               border: "1px dotted",
-              borderColor: `rgba(100, 100, 100, ${0.4 - i * 0.1})`, // fading effect
+              borderColor: `rgba(100, 100, 100, ${0.4 - i * 0.1})`,
               borderWidth: "1px",
+              opacity: showDotted ? 1 : 0,
+              transitionDelay: showDotted
+                ? `${i * 120}ms`
+                : `${(2 - i) * 120}ms`, // appear big to small, disappear small to big
             }}
           />
         ))}
 
-        {/* Inner Rhombuses */}
+        {/* Inner Gray Rhombuses */}
         {items.map((item, i) => (
           <div
             key={i}
             className="absolute flex items-center justify-center bg-gray-200 text-black hover:bg-gray-300 cursor-pointer transition-colors"
             onClick={() => handleClick(item.label)}
+            onMouseEnter={() => setShowDotted(true)}
+            onMouseLeave={() => setShowDotted(false)}
             style={{
               width: 192,
               height: 192,
