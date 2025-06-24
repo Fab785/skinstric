@@ -44,7 +44,7 @@ export default function LoadingPage() {
           letterSpacing: "-2%",
         }}
       >
-        Loading your results...
+        Loading your results....
       </p>
     </div>
   );
