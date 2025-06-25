@@ -49,7 +49,7 @@ export default function StartAnalysis() {
         <p className="text-[16px] font-medium text-black">
           SKINSTRIC <span className="text-gray-400 font-light">[ INTRO ]</span>
         </p>
-        <p className="text-[16px] font-medium text-black mt-10">TO START ANALYSIS</p>
+        <p className="text-[16px] font-medium text-black mt-10 no-underline">TO START ANALYSIS</p>
       </div>
 
       {/* Perfectly Centered Spinning Rhombuses */}
@@ -68,7 +68,7 @@ export default function StartAnalysis() {
         />
       </div>
 
-      {/* CENTER INPUT with more upward shift */}
+      {/* CENTER INPUT */}
       <div className="flex-1 flex items-center justify-center -mt-16">
         <div className="relative w-[300px] h-[160px] mx-auto text-center flex flex-col items-center justify-center">
           {!labelClicked && !hasText && (
@@ -108,13 +108,31 @@ export default function StartAnalysis() {
 
       {/* BACK BUTTON */}
       <div className="absolute bottom-8 left-8 z-10">
-        <button onClick={() => navigate("/")} aria-label="Back">
+        <button onClick={() => navigate("/")} aria-label="Back" className="no-underline">
           <RhombusButton direction="left" label="BACK" />
         </button>
       </div>
+
+      {/* PROCEED BUTTON ONLY ON STEP 2 */}
+      {step === 2 && (
+        <div className="absolute bottom-8 right-8 z-10">
+          <button
+            onClick={() => {
+              if (hasText) {
+                navigate("/upload");
+              }
+            }}
+            aria-label="Proceed"
+            className="no-underline"
+          >
+            <RhombusButton direction="right" label="PROCEED" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
+
 
 
 
