@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { FaPlay } from "react-icons/fa";
 
-export default function RhombusButton({ direction = "right", label, onClick, disableHover = false }) {
+export default function RhombusButton({ direction = "right", label, onClick }) {
   const isLeft = direction === "left";
   const [isHovered, setIsHovered] = useState(false);
+
+  // Disable hover effects for BACK and PROCEED buttons
+  const lowerLabel = label?.toLowerCase?.() || "";
+  const disableHover = lowerLabel === "back" || lowerLabel === "proceed" || lowerLabel === "get summary";
 
   const shouldHover = !disableHover && isHovered;
 

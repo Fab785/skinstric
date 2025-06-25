@@ -139,8 +139,10 @@ export default function ImageUploadChoice() {
             accept="image/*"
             ref={fileInputRef}
             onChange={handleFileChange}
-            style={{ display: "none" }}
+            className="hidden focus:outline-none focus:ring-0"
+            style={{ appearance: "none" }}
           />
+
         </div>
       </div>
 
