@@ -33,10 +33,10 @@ export default function Hero() {
             className={`
               transition-transform duration-700 ease-in-out
               ${hoverTarget === "left" ? "translate-x-[34vw]" : ""}
-              ${hoverTarget === "right" ? "-translate-x-[34vw]" : ""}
+              ${hoverTarget === "right" ? "-translate-x-[36vw]" : ""}
             `}
           >
-            Skincare
+            skincare
           </span>
         </h1>
 
