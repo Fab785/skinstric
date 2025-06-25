@@ -41,6 +41,7 @@ export default function DemographicsResults() {
         );
 
         const result = await response.json();
+        console.log("API result:", result);
 
         if (response.ok && result.data) {
           setDemographics(result.data);
