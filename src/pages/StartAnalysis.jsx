@@ -58,7 +58,7 @@ export default function StartAnalysis() {
         style={{
           width: "40vw",
           height: "40vw",
-          top: "42%", // moved more up here
+          top: "36%", // moved more up here
           left: "35%",
           transform: "translate(-50%, -50%)",
         }}
