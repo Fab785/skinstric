@@ -24,21 +24,25 @@ export default function ImageUploadChoice() {
     reader.readAsDataURL(file);
   };
 
+  // DiamondBackground renders the 3 dotted rhombuses, centered inside parent container
   const DiamondBackground = () => (
-    <>
+    <div className="hidden md:block absolute inset-0">
       {[180, 240, 300].map((size, i) => (
         <div
           key={i}
-          className="absolute border border-dotted border-gray-400"
+          className="border border-dotted border-gray-400"
           style={{
             width: size,
             height: size,
-            transform: "rotate(45deg)",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: `translate(-50%, -50%) rotate(45deg)`,
             opacity: 0.3 + i * 0.2,
           }}
         />
       ))}
-    </>
+    </div>
   );
 
   return (
@@ -157,7 +161,6 @@ export default function ImageUploadChoice() {
     </div>
   );
 }
-
 
 
 
