@@ -83,25 +83,25 @@ export default function DemographicsResults() {
   return (
     <div className="flex flex-col min-h-screen bg-white font-sans">
       {/* Top Nav Bar */}
-    <div className="px-[22px] pt-[24px] pb-[16px] bg-white">
-     <div className="text-sm font-bold text-black">
-        SKINSTRIC <span className="text-gray-400">[ ANALYSIS ]</span>
-    </div>
-    <div className="text-sm font-bold text-black mt-[48px]">A. I. ANALYSIS</div>
-    </div>
-
+      <div className="px-6 pt-6 pb-4 bg-white">
+        <div className="text-sm font-semibold text-black">
+          SKINSTRIC <span className="text-gray-400">[ ANALYSIS ]</span>
+        </div>
+        <div className="text-sm font-semibold text-black mt-12">A. I. ANALYSIS</div>
+      </div>
 
       {/* Header */}
-<div className="px-[16px] pt-[0px] pb-[16px]">
-  <h1 className="text-[56px] font-black tracking-tight leading-none">DEMOGRAPHICS</h1>
-  <p className="text-sm text-black mt-1">PREDICTED RACE & AGE</p>
-</div>
-
+      <div className="px-4 pt-0 pb-4">
+        <h1 className="text-4xl md:text-[56px] font-black tracking-tight leading-none">
+          DEMOGRAPHICS
+        </h1>
+        <p className="text-sm text-black mt-1">PREDICTED RACE & AGE</p>
+      </div>
 
       {/* Main Content */}
-      <div className="flex flex-1 px-[22px] pt-[60px] gap-[16px]">
+      <div className="flex flex-col md:flex-row flex-1 px-6 pt-12 gap-4 md:gap-6 overflow-auto">
         {/* Left Tabs */}
-        <div className="w-[208px] h-[464px] bg-white space-y-1 flex flex-col justify-start py-2">
+        <div className="flex-shrink-0 md:w-[208px] w-full bg-white space-y-1 flex flex-row md:flex-col justify-start py-2 overflow-x-auto md:overflow-visible">
           {["race", "age", "gender"].map((key) => {
             const label = key === "race" ? "RACE" : key === "age" ? "AGE" : "SEX";
             const top = demographics ? getTopPrediction(demographics[key]) : null;
@@ -109,7 +109,7 @@ export default function DemographicsResults() {
             return (
               <div
                 key={key}
-                className={`px-4 py-3 border-b border-black cursor-pointer w-[190px] h-[104px] flex flex-col justify-between ${
+                className={`px-4 py-3 border-b border-black cursor-pointer min-w-[150px] md:w-[190px] h-[104px] flex flex-col justify-between ${
                   activeTab === key ? "bg-black text-white" : "bg-gray-100 text-black"
                 }`}
                 onClick={() => setActiveTab(key)}
@@ -117,9 +117,7 @@ export default function DemographicsResults() {
                 <div className="text-base font-bold uppercase leading-tight">
                   {top ? top.label : "—"}
                 </div>
-                <div className="text-base font-bold uppercase tracking-wide">
-                  {label}
-                </div>
+                <div className="text-base font-bold uppercase tracking-wide">{label}</div>
               </div>
             );
           })}
@@ -127,8 +125,8 @@ export default function DemographicsResults() {
 
         {/* Center Prediction Display */}
         <div
-          className="flex flex-col justify-center bg-gray-100 px-8"
-          style={{ width: "880px", height: "464px" }}
+          className="flex flex-col justify-center bg-gray-100 px-6 flex-grow max-w-full md:max-w-[880px] min-h-[350px]"
+          style={{ minHeight: "350px" }}
         >
           {error && <p className="text-red-500">Error: {error}</p>}
           {!error && top ? (
@@ -136,14 +134,15 @@ export default function DemographicsResults() {
               <div className="text-left text-xl font-medium mb-6 capitalize">{top.label}</div>
               <div className="flex justify-center items-center">
                 <div
-                  className="rounded-full flex items-center justify-center text-[32px] font-bold text-black relative"
+                  className="rounded-full flex items-center justify-center text-2xl md:text-[32px] font-bold text-black relative"
                   style={{
-                    width: "384px",
-                    height: "384px",
+                    width: "100%",
+                    maxWidth: "384px",
+                    aspectRatio: "1 / 1",
                     background: `conic-gradient(black ${top.value}%, #e5e7eb ${top.value}% 100%)`,
                   }}
                 >
-                  <div className="w-[372px] h-[372px] rounded-full bg-white flex items-center justify-center border border-gray-300">
+                  <div className="w-[calc(100%-24px)] h-[calc(100%-24px)] rounded-full bg-white flex items-center justify-center border border-gray-300 text-3xl md:text-[32px]">
                     {top.value}%
                   </div>
                 </div>
@@ -156,8 +155,8 @@ export default function DemographicsResults() {
 
         {/* Right Panel: A.I. Confidence */}
         <div
-          className="px-4 py-4 bg-gray-100"
-          style={{ width: "320px", height: "464px" }}
+          className="px-4 py-4 bg-gray-100 flex-shrink-0 md:w-[320px] w-full max-w-full max-h-[464px] overflow-y-auto"
+          style={{ minHeight: "350px" }}
         >
           <div className="text-xs uppercase text-gray-500 font-medium mb-3 flex justify-between">
             <span>{activeTab === "race" ? "RACE" : activeTab === "age" ? "AGE" : "SEX"}</span>
@@ -188,14 +187,14 @@ export default function DemographicsResults() {
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center px-[22px] py-4 text-sm">
+      <div className="flex flex-col md:flex-row justify-between items-center px-6 py-4 text-sm gap-4 md:gap-0">
         <div onClick={handleBackClick} className="cursor-pointer ml-[-8px]">
           <RhombusButton direction="left" label="BACK" />
         </div>
-        <div className="text-gray-400 text-base">
+        <div className="text-gray-400 text-base flex-grow text-center md:text-center md:ml-20">
           If A.I. estimate is wrong, select the correct one.
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 justify-center md:justify-start">
           <button
             className="px-4 py-1 border border-black text-black hover:bg-gray-100"
             onClick={() => setReloadKey((k) => k + 1)}

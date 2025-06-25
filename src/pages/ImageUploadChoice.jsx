@@ -45,7 +45,7 @@ export default function ImageUploadChoice() {
     <div className="w-full h-screen flex flex-col justify-between px-4 md:px-8 py-6 relative">
       {/* Top Text */}
       <div className="text-left uppercase">
-        <p className="text-[16px] font-normal text-black">
+        <p className="text-[16px] font-normal text-black font-semibold">
           SKINSTRIC <span className="text-gray-400 font-light">[ INTRO ]</span>
         </p>
       </div>
