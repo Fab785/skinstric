@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import RhombusButton from "../UI/RhombusButtons";
 
@@ -9,16 +9,41 @@ export default function AnalysisOverview() {
 
   const [showDotted, setShowDotted] = useState(false);
 
-  const handleGetSummary = () => {
-    console.log("Proceeding to summary...");
-  };
+  // Track window width for scaling
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const items = [
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Base sizes and offsets
+  const baseSize = 192;
+  const baseOffsets = [
     { label: "Demographics", offsetX: 0, offsetY: -140 },
     { label: "Cosmetic Concerns", offsetX: 140, offsetY: 0 },
     { label: "Weather", offsetX: 0, offsetY: 140 },
     { label: "Skin Type Details", offsetX: -140, offsetY: 0 },
   ];
+
+  // Calculate scale based on window width (adjust breakpoints and scale factor as needed)
+  let scale = 1;
+  if (windowWidth < 400) scale = 0.4;
+  else if (windowWidth < 600) scale = 0.6;
+  else if (windowWidth < 900) scale = 0.8;
+
+  const items = baseOffsets.map(({ label, offsetX, offsetY }) => ({
+    label,
+    offsetX: offsetX * scale,
+    offsetY: offsetY * scale,
+  }));
+
+  const size = baseSize * scale;
+
+  const handleGetSummary = () => {
+    console.log("Proceeding to summary...");
+  };
 
   const handleClick = (label) => {
     if (label === "Demographics") {
@@ -53,16 +78,16 @@ export default function AnalysisOverview() {
       {/* Center Rhombus Section */}
       <div className="flex-1 flex items-center justify-center relative">
         {/* Animated Dotted Rhombuses */}
-        {[2.8, 2.6, 2.4].map((scale, i) => (
+        {[2.8, 2.6, 2.4].map((scaleFactor, i) => (
           <div
             key={`dotted-${i}`}
             className={`absolute transition-opacity duration-500`}
             style={{
-              width: 192,
-              height: 192,
+              width: baseSize,
+              height: baseSize,
               top: "50%",
               left: "50%",
-              transform: `translate(-50%, -50%) rotate(-45deg) scale(${scale})`,
+              transform: `translate(-50%, -50%) rotate(-45deg) scale(${scaleFactor})`,
               zIndex: 0,
               border: "1px dotted",
               borderColor: `rgba(100, 100, 100, ${0.4 - i * 0.1})`,
@@ -70,7 +95,7 @@ export default function AnalysisOverview() {
               opacity: showDotted ? 1 : 0,
               transitionDelay: showDotted
                 ? `${i * 120}ms`
-                : `${(2 - i) * 120}ms`, // appear big to small, disappear small to big
+                : `${(2 - i) * 120}ms`,
             }}
           />
         ))}
@@ -84,8 +109,8 @@ export default function AnalysisOverview() {
             onMouseEnter={() => setShowDotted(true)}
             onMouseLeave={() => setShowDotted(false)}
             style={{
-              width: 192,
-              height: 192,
+              width: size,
+              height: size,
               top: `calc(50% + ${item.offsetY}px)`,
               left: `calc(50% + ${item.offsetX}px)`,
               transform: "translate(-50%, -50%) rotate(-45deg)",
@@ -97,7 +122,7 @@ export default function AnalysisOverview() {
                 transform: "rotate(45deg)",
                 fontFamily: "Roobert TRIAL",
                 fontWeight: 600,
-                fontSize: "14px",
+                fontSize: `${14 * scale}px`, // scale font size too
                 lineHeight: "20px",
                 letterSpacing: "-2%",
                 textAlign: "center",
@@ -129,7 +154,3 @@ export default function AnalysisOverview() {
     </div>
   );
 }
-
-
-
-
