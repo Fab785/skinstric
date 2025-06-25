@@ -9,7 +9,7 @@ export default function ImageUploadChoice() {
   const fileInputRef = useRef(null);
 
   const handleGalleryAccess = () => {
-    fileInputRef.current?.click(); // Open file picker
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = (e) => {
@@ -44,11 +44,14 @@ export default function ImageUploadChoice() {
   return (
     <div className="w-full h-screen flex flex-col justify-between px-4 md:px-8 py-6 relative">
       {/* Top Text */}
-      <div className="text-left uppercase space-y-1">
+      <div className="text-left uppercase">
         <p className="text-[16px] font-normal text-black">
           SKINSTRIC <span className="text-gray-400 font-light">[ INTRO ]</span>
         </p>
-        <p className="text-[16px] font-normal text-black mt-4">
+      </div>
+
+      <div className="text-left uppercase mt-10">
+        <p className="text-[16px] font-normal text-black font-semibold">
           TO START ANALYSIS
         </p>
       </div>
@@ -142,7 +145,6 @@ export default function ImageUploadChoice() {
             className="hidden focus:outline-none focus:ring-0"
             style={{ appearance: "none" }}
           />
-
         </div>
       </div>
 

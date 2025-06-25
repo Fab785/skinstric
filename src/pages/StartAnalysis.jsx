@@ -46,10 +46,10 @@ export default function StartAnalysis() {
     <div className="w-full h-screen bg-white relative font-roobert overflow-hidden px-8 py-6 flex flex-col justify-between">
       {/* TOP LABELS */}
       <div>
-        <p className="text-[16px] font-medium text-black">
+        <p className="text-[16px] font-medium text-black font-semibold">
           SKINSTRIC <span className="text-gray-400 font-light">[ INTRO ]</span>
         </p>
-        <p className="text-[16px] font-medium text-black mt-10 no-underline">TO START ANALYSIS</p>
+        <p className="text-[16px] font-medium text-black font-semibold mt-10 no-underline">TO START ANALYSIS</p>
       </div>
 
       {/* Perfectly Centered Spinning Rhombuses */}
