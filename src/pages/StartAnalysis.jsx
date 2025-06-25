@@ -53,18 +53,39 @@ export default function StartAnalysis() {
       </div>
 
       {/* Perfectly Centered Spinning Rhombuses */}
-      <div className="absolute top-[30%] left-[35%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
+      <div
+        className="absolute pointer-events-none z-0 max-md:hidden"
+        style={{
+          width: "40vw",
+          height: "40vw",
+          top: "42%", // moved more up here
+          left: "35%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
         <div
-          className="absolute w-[500px] h-[500px] border border-dotted border-[2px] border-[#E5E7EB] rotate-45 spin-slow max-md:w-[400px] max-md:h-[400px]"
-          style={{ top: "40%", left: "40%" }}
+          className="absolute border border-dotted border-[2px] border-[#E5E7EB] rotate-45 spin-slow"
+          style={{ width: "40vw", height: "40vw", top: "40%", left: "40%" }}
         />
         <div
-          className="absolute w-[450px] h-[450px] border border-dotted border-[2px] border-[#D1D5DB] rotate-45 spin-slower max-md:w-[350px] max-md:h-[350px]"
-          style={{ top: "42%", left: "44%", transform: "translate(-50%, -50%)" }}
+          className="absolute border border-dotted border-[2px] border-[#D1D5DB] rotate-45 spin-slower"
+          style={{
+            width: "36vw",
+            height: "36vw",
+            top: "42%",
+            left: "44%",
+            transform: "translate(-50%, -50%)",
+          }}
         />
         <div
-          className="absolute w-[400px] h-[400px] border border-dotted border-[2px] border-[#A0A4AB] rotate-45 spin-slowest max-md:w-[300px] max-md:h-[300px]"
-          style={{ top: "42%", left: "44%", transform: "translate(-50%, -50%)" }}
+          className="absolute border border-dotted border-[2px] border-[#A0A4AB] rotate-45 spin-slowest"
+          style={{
+            width: "32vw",
+            height: "32vw",
+            top: "42%",
+            left: "44%",
+            transform: "translate(-50%, -50%)",
+          }}
         />
       </div>
 
@@ -132,6 +153,8 @@ export default function StartAnalysis() {
     </div>
   );
 }
+
+
 
 
 
