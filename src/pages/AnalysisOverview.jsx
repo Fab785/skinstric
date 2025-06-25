@@ -44,7 +44,7 @@ export default function AnalysisOverview() {
             A. I. Analysis
           </p>
           <p className="text-[14px] font-normal text-black uppercase tracking-tight leading-6 w-[336px]">
-            A. I. has estimated the following.
+            A. I. has estimated the following. <br />
             fix estimated information if needed.
           </p>
         </div>
