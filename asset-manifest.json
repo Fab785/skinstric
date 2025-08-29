@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/skinstric/static/css/main.59750594.css",
-    "main.js": "/skinstric/static/js/main.bf6350bd.js",
+    "main.js": "/skinstric/static/js/main.6cce5502.js",
     "static/media/RoobertTRIAL-Regular.woff2": "/skinstric/static/media/RoobertTRIAL-Regular.520ca4de3c47bfc750b3.woff2",
     "static/media/RoobertTRIAL-Light.woff2": "/skinstric/static/media/RoobertTRIAL-Light.900ad8ee506f03ea5b7f.woff2",
     "index.html": "/skinstric/index.html",
     "main.59750594.css.map": "/skinstric/static/css/main.59750594.css.map",
-    "main.bf6350bd.js.map": "/skinstric/static/js/main.bf6350bd.js.map"
+    "main.6cce5502.js.map": "/skinstric/static/js/main.6cce5502.js.map"
   },
   "entrypoints": [
     "static/css/main.59750594.css",
-    "static/js/main.bf6350bd.js"
+    "static/js/main.6cce5502.js"
   ]
 }
